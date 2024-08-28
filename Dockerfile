@@ -11,10 +11,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libcurl4-openssl-dev \
     libunwind-dev \
     libelf-dev \
-    libdwarf-dev \
-    libc6-prof \
-    libstdc++6-10-dbg && \
-    rm -rf /var/lib/apt/lists/*
+    libdwarf-dev
 
 # Copy the current directory contents into the container
 COPY . /usr/src/app
