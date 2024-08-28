@@ -2,7 +2,7 @@
 FROM ubuntu:latest
 
 # Install Clang and other dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --no-install-recommends -y \
     clang \
     cmake \
     git \
@@ -11,7 +11,10 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libunwind-dev \
     libelf-dev \
-    libdwarf-dev
+    libdwarf-dev \
+    libc6-prof \
+    libstdc++6-10-dbg && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the current directory contents into the container
 COPY . /usr/src/app
@@ -20,7 +23,7 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 
 # Compile the application
-RUN clang++ -g -fno-omit-frame-pointer -O2 -o myapp main.cpp
+RUN clang++ -g -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -o myapp main.cpp
 
 # Run the application
 CMD ["./myapp"]
